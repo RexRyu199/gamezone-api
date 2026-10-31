@@ -1,5 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+
 from .models import User
 
 
@@ -35,3 +36,15 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+
+class RegisterUserSerializer(serializers.ModelSerializer):
+    """Registro público: solo estos campos. No acepta is_staff ni is_active."""
+    password = serializers.CharField(write_only=True, validators=[validate_password])
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'gamertag', 'password']
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)

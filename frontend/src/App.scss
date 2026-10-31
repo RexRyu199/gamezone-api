@@ -1,0 +1,276 @@
+:root {
+  --bg: #0b0d17;
+  --surface: #141830;
+  --surface-2: #1b2040;
+  --border: #272d55;
+  --text: #e8eaf6;
+  --muted: #8f96b8;
+  --accent: #6c8cff;
+  --accent-2: #8a5cff;
+  --danger: #ff6b6b;
+}
+
+* { box-sizing: border-box; }
+
+body,
+.ui.button,
+.ui.input input,
+.ui.form input,
+.ui.card,
+.ui.cards > .card,
+.ui.message {
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+h1, h2, h3 { color: var(--text); line-height: 1.2; margin: 0 0 12px; }
+h1 { font-size: 2rem; }
+a { color: var(--accent); }
+label { color: var(--text); }
+.muted { color: var(--muted); }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+/* ---------- Navbar ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  nav { display: flex; align-items: center; gap: 20px; }
+
+  a, button {
+    color: var(--muted);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-size: 0.95rem;
+    text-decoration: none;
+    font-family: inherit;
+
+    &:hover, &.active { color: var(--text); }
+  }
+
+  a.cta {
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Home ---------- */
+.hero {
+  background: radial-gradient(ellipse at top, #1d2552 0%, var(--bg) 70%);
+  border-bottom: 1px solid var(--border);
+
+  &__content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 90px 24px;
+    text-align: center;
+
+    h1 { font-size: 2.6rem; }
+  }
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.lead { color: var(--muted); font-size: 1.1rem; margin: 16px 0 28px; }
+.actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.feature {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+
+  p { color: var(--muted); margin: 0; }
+}
+
+/* ---------- Login y registro ---------- */
+.login-admin {
+  min-height: calc(100vh - 62px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(ellipse at top, #1d2552 0%, var(--bg) 70%);
+
+  &__content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px 40px;
+    border-radius: 14px;
+    width: 440px;
+    max-width: 100%;
+
+    > h1 {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--muted);
+  }
+}
+
+/* ---------- Dashboard ---------- */
+.dashboard {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+
+  &__header {
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  &__widget h2 { margin-bottom: 4px; }
+  &__source { color: var(--muted); margin-bottom: 16px; }
+}
+
+.center-page {
+  min-height: calc(100vh - 62px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  padding: 24px;
+}
+
+/* ---------- Semantic UI en modo oscuro ---------- */
+
+/* Inputs */
+.ui.input input,
+.ui.form input[type="text"],
+.ui.form input[type="password"],
+.ui.form input:not([type]) {
+  background-color: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: 8px !important;
+
+  &:focus {
+    border-color: var(--accent) !important;
+    box-shadow: none !important;
+  }
+}
+
+.ui.form .field > label { color: var(--text) !important; }
+
+.ui.form .field.error .ui.input input {
+  background-color: var(--surface-2) !important;
+  border-color: var(--danger) !important;
+}
+
+.ui.form .field .prompt.label {
+  background: var(--surface-2) !important;
+  color: var(--danger) !important;
+  border-color: var(--danger) !important;
+}
+
+/* Botones */
+.ui.button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+
+  &:hover { background: var(--surface-2); color: var(--text); }
+}
+
+.ui.primary.button {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2)) !important;
+  border: 0;
+  color: #fff;
+
+  &:hover { filter: brightness(1.12); }
+}
+
+/* Tarjetas */
+.ui.card,
+.ui.cards > .card {
+  background: var(--surface) !important;
+  box-shadow: none !important;
+  border: 1px solid var(--border);
+  border-radius: 14px !important;
+  color: var(--text);
+  transition: transform 0.15s, border-color 0.15s;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+
+  > .content {
+    border-top: 1px solid var(--border) !important;
+  }
+
+  > .content > .header { color: var(--text) !important; }
+  .meta { color: var(--muted) !important; }
+  .meta b { color: #5ee0a0; }
+  > .content > .description { color: var(--muted) !important; }
+}
+
+/* Mensajes y loader */
+.ui.negative.message {
+  background: rgba(255, 107, 107, 0.12) !important;
+  color: var(--danger) !important;
+  box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.4) inset !important;
+}
+
+.ui.loader:before { border-color: var(--border) !important; }
+.ui.loader:after { border-color: var(--accent) transparent transparent !important; }
+
+@media (max-width: 700px) {
+  .nav { flex-direction: column; gap: 10px; }
+  .hero__content h1 { font-size: 1.8rem; }
+  .login-admin__content { padding: 28px 22px; }
+}
