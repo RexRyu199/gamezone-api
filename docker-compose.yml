@@ -1,0 +1,52 @@
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - datos-mysql:/var/lib/mysql
+    networks:
+      - red-interna
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  backend:
+    build: ./backend
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - red-interna
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_BASE_API_URL: http://localhost:8000
+      VITE_LOCAL_STORAGE_ITEM_NAME: TOKEN
+      VITE_CHEAPSHARK_API_URL: https://www.cheapshark.com/api/1.0
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - red-interna
+
+volumes:
+  datos-mysql:
+
+networks:
+  red-interna:
+    driver: bridge

@@ -1,53 +1,39 @@
-# Resultado de Aprendizaje Unidad 2 y 3: Django + React con Autenticación y APIs
+# GameZone API con Docker
 
-Proyecto GameZone. Backend en Django REST (usuarios con email, JWT, registro y
-consumo de un servicio SOAP con zeep) y frontend en React + Vite (Semantic UI,
-React Router v6, AuthContext). API de terceros: CheapShark.
+Proyecto GameZone: backend en Django REST (usuarios con email, JWT, SOAP con zeep), frontend en React + Vite y base de datos MySQL, todo orquestado con Docker Compose.
 
-## Backend
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env      (poner una SECRET_KEY propia)
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
+## Requisitos
+- Docker Desktop instalado y abierto
+- Puertos 5173 y 8000 libres
 
-SECRET_KEY: python -c "import secrets; print(secrets.token_urlsafe(50))"
-Swagger: http://127.0.0.1:8000/swagger/
+## Instalación
+1. Clonar el repositorio y entrar a la carpeta del proyecto.
+2. Copiar el archivo de variables de entorno y llenar los valores:
+   ```
+   copy .env.example .env
+   ```
+   Generar una SECRET_KEY:
+   ```
+   python -c "import secrets; print(secrets.token_urlsafe(50))"
+   ```
+3. Levantar todo el sistema:
+   ```
+   docker compose up -d --build
+   ```
 
-## Frontend
-cd frontend
-npm install
-copy .env.example .env
-npm run dev
-Abrir http://localhost:5173
+## Accesos
+- Frontend: http://localhost:5173
+- Backend (Swagger): http://localhost:8000/swagger/
 
-## Endpoints principales
-- POST /api/v1/auth/register/        registro público
-- POST /api/v1/auth/token/           login (JWT)
-- GET  /api/v1/auth/me/              datos del usuario (protegido)
-- GET  /api/v1/soap/country/{iso}/   consume un servicio SOAP con zeep (protegido)
+## Comandos útiles
+- Ver contenedores: `docker ps`
+- Ver logs del backend: `docker compose logs backend`
+- Crear superusuario: `docker compose exec backend python manage.py createsuperuser`
+- Apagar (los datos se conservan en el volumen): `docker compose down`
+- Apagar y borrar también los datos: `docker compose down -v`
 
 ## Tiempo de vida del token
-ACCESS_TOKEN_LIFETIME = 30 minutos: limita el daño si se filtra el token sin
-obligar a iniciar sesión constantemente. El refresh dura 1 día.
+ACCESS_TOKEN_LIFETIME = 30 minutos: limita el daño si se filtra el token sin obligar a iniciar sesión constantemente. El refresh dura 1 día.
 
 ## API de terceros
-CheapShark (https://www.cheapshark.com) se consume con fetch en el Dashboard.
-Es gratuita y no requiere API key; su URL base está en VITE_CHEAPSHARK_API_URL.
-
-## Servicio SOAP
-CountryInfoService (webservices.oorsprong.org), consumido con zeep desde Django.
-Ejemplo: GET /api/v1/soap/country/MX/ con el header Authorization: Bearer <token>.
-
-## Seguridad
-- La contraseña nunca aparece en las respuestas de la API (write_only).
-- Editar un usuario sin enviar contraseña no la modifica.
-- El registro público solo acepta username, email, gamertag y password.
-- CORS limitado al origen del frontend (no se permite cualquier origen).
-- El frontend borra el token si está vencido o es inválido.
-- Los .env no se suben a GitHub.
-
-
+CheapShark (https://www.cheapshark.com), gratuita y sin API key.
